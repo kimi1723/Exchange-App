@@ -7,6 +7,7 @@ const rateInfo = document.querySelector('.rate-info') as HTMLParagraphElement;
 
 const calc = () => {
 	const requestURL: string = `https://api.exchangerate.host/latest?base=${currencyOne.value}`;
+
 	fetch(requestURL)
 		.then(res => res.json())
 		.then(data => {
@@ -14,20 +15,14 @@ const calc = () => {
 			const currency2: string = currencyTwo.value;
 
 			const exchangeRate: number = data.rates[currency2];
-
 			const secondAmountValue: number = Number(firstAmount.value) * exchangeRate;
 
 			secondAmount.value = secondAmountValue.toFixed(2).toString();
+			rateInfo.textContent = `1 ${currency1} = ${exchangeRate.toFixed(4)} ${currency2}`;
 		});
 };
 
 const swapCurrencies = () => {
-	// const firstAmountValue = firstAmount.value;
-	// const secondAmountValue = secondAmount.value;
-
-	// firstAmount.value = secondAmountValue;
-	// secondAmount.value = firstAmountValue;
-
 	const currencyOneValue: string = currencyOne.value;
 	const currencyTwoValue: string = currencyTwo.value;
 
@@ -36,7 +31,7 @@ const swapCurrencies = () => {
 	calc();
 };
 
-firstAmount.addEventListener('keyup', calc);
+firstAmount.addEventListener('input', calc);
 currencyOne.addEventListener('change', calc);
 currencyTwo.addEventListener('change', calc);
 swapBtn.addEventListener('click', swapCurrencies);
